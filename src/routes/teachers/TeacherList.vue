@@ -4,6 +4,7 @@
      </section>
      <section>
           <base-card>
+               *********** TEST JENKINS ***************
                <div class="controls">
                     <base-button mode="outline">Refresh</base-button>
                     <base-button v-if="!isTeacher" link to="/register">Register as Teacher</base-button>
