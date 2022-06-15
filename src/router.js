@@ -21,7 +21,7 @@ const router = createRouter({
     },
     { path: '/register', component: TeacherRegistration },
     { path: '/applications', component: ApplicationsReceived },
-    { path: '/:catchAll(.*)', component: PageNotFound }
+    // { path: '/:catchAll(.*)', component: PageNotFound }
   ]
 });
 
