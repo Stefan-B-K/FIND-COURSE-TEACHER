@@ -1,4 +1,5 @@
 const state = {
+  registeredAsTeacher: false,
   teachers: [
     {
       id: 't1',
@@ -49,6 +50,9 @@ const getters = {
     });
     return allAreas
   },
+  registeredAsTeacher(state) {
+    return state.registeredAsTeacher
+  },
   lastId(state) {
     return state.teachers[state.teachers.length - 1].id
   }
@@ -57,13 +61,18 @@ const getters = {
 const mutations = {
   addTeacher(state, newTeacher) {
     state.teachers.push(newTeacher)
+  },
+  setRegistered(state) {
+    state.registeredAsTeacher = true
   }
 };
 
 const actions = {
-  addTeacher({ commit, getters }, newTeacher) {
+  addTeacher({ commit, getters, rootState }, newTeacher) {
     const newId = 't' + (Number(getters.lastId.slice(1)) + 1)
     commit('addTeacher', {...newTeacher, id: newId })
+    commit('setRegistered')
+    rootState.userId = newId
   }
 };
 

@@ -6,7 +6,7 @@
           <base-card>
                <div class="controls">
                     <base-button mode="outline">Refresh</base-button>
-                    <base-button link to="/register">Register as Teacher</base-button>
+                    <base-button v-if="!isTeacher" link to="/register">Register as Teacher</base-button>
                </div>
                <ul v-if="hasTeachers">
                     <teacher-item v-for="teacher in filteredTeachers"
@@ -38,7 +38,8 @@ export default {
           ...mapGetters({
                teachers: 'teachers/allTeachers',
                hasTeachers: 'teachers/teachersLoaded',
-               areas: 'teachers/allAreas'
+               areas: 'teachers/allAreas',
+               isTeacher: 'teachers/registeredAsTeacher'
           }),
           filteredTeachers () {
                return this.teachers.filter(teacher => {
