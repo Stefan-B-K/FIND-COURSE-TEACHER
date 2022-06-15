@@ -9,14 +9,6 @@ import TheHeader from '@/components/layout/TheHeader';
 
 export default {
   components: { TheHeader },
-  inject: [],
-  props: {},
-  emits: [],
-  watch: {},
-  data () { return {}; },
-  provide () { return {}; },
-  computed: {},
-  methods: {}
 };
 </script>
 

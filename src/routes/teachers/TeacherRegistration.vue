@@ -25,6 +25,7 @@ export default {
             addTeacher: 'teachers/addTeacher'
        }),
        registerTeacher(newOne) {
+            console.log(newOne);
             this.addTeacher(newOne)
             this.$router.replace('/teachers')
        }
