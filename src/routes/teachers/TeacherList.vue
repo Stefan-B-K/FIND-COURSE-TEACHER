@@ -18,7 +18,7 @@
                <div v-if="isLoading">
                     <base-spinner></base-spinner>
                </div>
-               <ul v-else-if="hasTeachers">
+               <ul v-else-if="teachersLoaded">
                     <teacher-item v-for="teacher in filteredTeachers"
                                   :key="teacher.id"
                                   :teacher="teacher"
@@ -45,23 +45,18 @@ export default {
           };
      },
      async created () {
-          if (!this.hasTeachers) {
-               try {
-                    this.isLoading = true;
-                    await this.loadTeachers();
-                    this.isLoading = false;
-               } catch (error) {
-                    this.error = error.message;
-               }
+          if (!this.teachersLoaded) {
+               await this.refreshTeachers()
+          } else {
+               this.areasChecked = this.areas;
           }
-          this.areasChecked = this.areas;
      },
      computed: {
           ...mapGetters({
                teachers: 'teachers/allTeachers',
-               hasTeachers: 'teachers/teachersLoaded',
+               teachersLoaded: 'teachers/teachersLoaded',
                areas: 'teachers/allAreas',
-               isTeacher: 'teachers/registeredAsTeacher'
+               isTeacher: 'userIsTeacher'
           }),
           filteredTeachers () {
                return this.teachers.filter(teacher => {

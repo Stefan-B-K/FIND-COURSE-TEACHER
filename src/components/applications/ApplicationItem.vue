@@ -1,22 +1,35 @@
 <template>
-    <li>
-         <div>
-              <a :href="emailLink">{{ application.userEmail }}</a>
-         </div>
-         <p>{{ application.message }}</p>
-    </li>
+     <li>
+          <div class="controls">
+               <div>
+                    <div>
+                         <a :href="emailLink">{{ application.userEmail }}</a>
+                    </div>
+                    <p>{{ application.message }}</p>
+               </div>
+               <base-button @click="deleteApplication" mode="outline">Delete</base-button>
+          </div>
+     </li>
 </template>
 
 
 <script>
+import BaseButton from '@/components/ui/BaseButton';
+
 export default {
+     components: { BaseButton },
      props: { application: Object },
+     emits: ['delete-app'],
      computed: {
-          emailLink() {
-               return 'mailto: ' + this.application.userEmail
+          emailLink () {
+               return 'mailto: ' + this.application.userEmail;
           }
      },
-     methods: {}
+     methods: {
+          deleteApplication() {
+               this.$emit('delete-app', this.application.id)
+          }
+     }
 };
 </script>
 
@@ -41,5 +54,10 @@ a:active {
 
 p {
      margin: 0.5rem 0 0 0;
+}
+
+.controls {
+     display: flex;
+     justify-content: space-between;
 }
 </style>

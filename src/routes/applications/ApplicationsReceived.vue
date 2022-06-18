@@ -21,6 +21,7 @@
                          v-for="application in receivedApplications"
                          :key="application.id"
                          :application="application"
+                         @delete-app="deleteApplication"
                     >
                     </application-item>
                </ul>
@@ -55,21 +56,28 @@ export default {
      },
      methods: {
           ...mapActions({
-               fetchApplications: 'applications/fetchApplications'
+               fetchApplications: 'applications/fetchApplications',
+               deleteApp: 'applications/deleteApplication'
           }),
           async loadApplications () {
-               try {
-                    this.isLoading = true;
-                    await this.fetchApplications();
-                    this.isLoading = false;
-               } catch (error) {
-                    this.error = error.message;
-               }
+               await this.tryMethod(this.fetchApplications)
           },
+          async deleteApplication(appId) {
+               await this.tryMethod(this.deleteApp, appId)
+          },
+          async tryMethod(appFunction, param) {
+                try {
+                     this.isLoading = true;
+                     await appFunction(param);
+                     this.isLoading = false;
+                } catch (error) {
+                     this.error = error.message;
+                }
+           },
           handleError () {
                this.isLoading = false;
                this.error = null;
-          }
+          },
      }
 };
 </script>

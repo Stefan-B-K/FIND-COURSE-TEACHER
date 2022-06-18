@@ -25,6 +25,9 @@ const mutations = {
   },
   setApplicationsLoaded (state) {
     state.applicationsLoaded = true;
+  },
+  deleteApplication (state, appId) {
+    state.applications = state.applications.filter(app => app.id !== appId);
   }
 };
 
@@ -49,13 +52,26 @@ const actions = {
     try {
       const response = await axios
         .get(`${FIREBASE_DB}/requests/${rootGetters.userId}.json`);
-      loadedApps = Object.keys(response.data)
-        .map(key => ({ ...response.data[key], id: key }));
+      if (response.data) {
+        loadedApps = Object.keys(response.data)
+          .map(key => ({ ...response.data[key], id: key }));
+      }
     } catch (error) {
       throw new Error('Error fetching applications from Firebase: ' + error);
     }
     commit('setApplications', loadedApps);
-    commit('setApplicationsLoaded')
+    commit('setApplicationsLoaded');
+  },
+
+  async deleteApplication ({ commit, rootGetters }, appId) {
+
+    try {
+      await axios
+        .delete(`${FIREBASE_DB}/requests/${rootGetters.userId}/${appId}.json`);
+      commit('deleteApplication', appId);
+    } catch (error) {
+      throw new Error('Error deleting application from Firebase: ' + error);
+    }
   }
 
 };
