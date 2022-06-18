@@ -1,26 +1,37 @@
 <template>
+     <base-dialog
+          :show="!!error"
+          @close="handleError"
+          title="Error fetching teachers!!"
+     >
+          <p>{{ error }}</p>
+     </base-dialog>
      <section>
-          <teacher-filter :allAreas="areas" @change-filter="setAreas"></teacher-filter>
+          <teacher-filter @change-filter="setAreas"></teacher-filter>
      </section>
      <section>
           <base-card>
                <div class="controls">
-                    <base-button mode="outline">Refresh</base-button>
-                    <base-button v-if="!isTeacher" link to="/register">Register as Teacher</base-button>
+                    <base-button @click="refreshTeachers" v-if="!isLoading" mode="outline">Refresh</base-button>
+                    <base-button v-if="!isTeacher && !isLoading" link to="/register">Register as Teacher</base-button>
                </div>
-               <ul v-if="hasTeachers">
+               <div v-if="isLoading">
+                    <base-spinner></base-spinner>
+               </div>
+               <ul v-else-if="hasTeachers">
                     <teacher-item v-for="teacher in filteredTeachers"
                                   :key="teacher.id"
                                   :teacher="teacher"
                     ></teacher-item>
                </ul>
-               <h3 v-else>No teachers found.</h3></base-card>
+               <h3 v-else>No teachers found.</h3>
+          </base-card>
      </section>
 </template>
 
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import TeacherItem from '@/components/teachers/TeacherItem';
 import TeacherFilter from '@/components/teachers/TeacherFilter';
 
@@ -28,10 +39,21 @@ export default {
      components: { TeacherItem, TeacherFilter },
      data () {
           return {
-               areasChecked: []
+               areasChecked: [],
+               isLoading: false,
+               error: null
           };
      },
-     created () {
+     async created () {
+          if (!this.hasTeachers) {
+               try {
+                    this.isLoading = true;
+                    await this.loadTeachers();
+                    this.isLoading = false;
+               } catch (error) {
+                    this.error = error.message;
+               }
+          }
           this.areasChecked = this.areas;
      },
      computed: {
@@ -53,6 +75,23 @@ export default {
      methods: {
           setAreas (updatedAreas) {
                this.areasChecked = updatedAreas;
+          },
+          ...mapActions({
+               loadTeachers: 'teachers/fetchTeachers'
+          }),
+          async refreshTeachers () {
+               try {
+                    this.isLoading = true;
+                    await this.loadTeachers();
+                    this.isLoading = false;
+                    this.areasChecked = this.areas;
+               } catch (error) {
+                    this.error = error.message;
+               }
+          },
+          handleError () {
+               this.isLoading = false;
+               this.error = null;
           }
      }
 };

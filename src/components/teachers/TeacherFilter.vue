@@ -10,9 +10,10 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
      emits: ['change-filter'],
-     props: { allAreas: Array },
      data () {
           return {
                areasChecked: []
@@ -20,6 +21,14 @@ export default {
      },
      created () {
           this.areasChecked = this.allAreas
+     },
+     watch: {
+          allAreas() {
+               this.areasChecked = this.allAreas
+          }
+     },
+     computed: {
+          ...mapGetters({ allAreas: 'teachers/allAreas'})
      },
      methods: {
           setFilter (event) {

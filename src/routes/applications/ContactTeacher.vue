@@ -1,19 +1,91 @@
 <template>
-  CONTACT TEACHER
+     <base-dialog
+          :show="!!error"
+          @close="handleError"
+          title="Error sending application!!!"
+     >
+          <p>{{ error }}</p>
+     </base-dialog>
+     <div v-if="isLoading">
+          <base-spinner></base-spinner>
+     </div>
+     <form v-else @submit.prevent="submitForm">
+          <div class="form-control" :class="{ invalid: !email.isValid }">
+               <label for="email">Your E-Mail</label>
+               <input
+                    v-model.trim="email.value"
+                    type="email"
+                    id="email"
+                    @input="clearInvalidPrompt('email')"
+               />
+               <p v-if="!email.isValid">Must provide a valid e-mail!</p>
+          </div>
+          <div class="form-control" :class="{ invalid: !message.isValid }">
+               <label for="message">Message</label>
+               <textarea
+                    v-model.trim="message.value"
+                    id="message"
+                    rows="5"
+                    @input="clearInvalidPrompt('message')"
+               ></textarea>
+               <p v-if="!message.isValid">Enter some message to send to the teacher!</p>
+          </div>
+          <div class="actions">
+               <base-button>Send</base-button>
+               <h4 v-if="!formIsValid">Please provide valid data
+                    in the fields marked with red!</h4>
+          </div>
+     </form>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
-  name: 'App',
-  components: {},
-  inject: [],
-  props: {},
-  emits: [],
-  watch: {},
-  data () { return {}; },
-  provide () { return {}; },
-  computed: {},
-  methods: {}
+     data () {
+          return {
+               email: { value: '', isValid: true },
+               message: { value: '', isValid: true },
+               isLoading: false,
+               error: null
+          };
+     },
+     computed: {
+          formIsValid () {
+               return this.email.isValid && this.message.isValid
+          }
+     },
+     methods: {
+          ...mapActions({ contactTeacher: 'applications/contactTeacher' }),
+          validateForm () {
+               if (this.email.value === '') this.email.isValid = false;
+               if (this.message.value === '') this.message.isValid = false;
+          },
+          async submitForm () {
+               this.validateForm();
+               if (!this.formIsValid) return;
+               try {
+                    this.isLoading = true;
+                    await this.contactTeacher({
+                         email: this.email.value,
+                         message: this.message.value,
+                         teacherId: this.$route.params.id
+                    });
+                    this.isLoading = false;
+                    this.$router.replace('/teachers');
+               } catch (error) {
+                    this.error = error.message;
+               }
+          },
+          clearInvalidPrompt (input) {
+               this[input].isValid = true;
+          },
+          handleError () {
+               this.isLoading = false;
+               this.error = null;
+               this.$router.replace('/teachers');
+          }
+     }
 };
 </script>
 
@@ -51,12 +123,26 @@ textarea:focus {
      outline: none;
 }
 
-.errors {
-     font-weight: bold;
+.invalid label {
      color: red;
+}
+
+.invalid input,
+.invalid textarea {
+     border: 1px solid red;
 }
 
 .actions {
      text-align: center;
+}
+
+p {
+     margin-top: 2px;
+     font-size: small;
+     font-weight: 100;
+}
+
+base-button {
+     margin: 5px;
 }
 </style>

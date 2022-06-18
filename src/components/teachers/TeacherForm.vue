@@ -74,10 +74,7 @@
 
 <script>
 
-import BaseButton from '@/components/ui/BaseButton';
-
 export default {
-     components: { BaseButton },
      props: { allAreas: Array },
      emits: ['save-data'],
      data () {

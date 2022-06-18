@@ -7,13 +7,22 @@
                <ul>
                     <li>
                          <router-link to='/teachers'>All Teachers</router-link>
-                         <router-link to='/applications'>Applications</router-link>
+                         <router-link v-if="userIsTeacher" to='/applications'>Applications</router-link>
                     </li>
                </ul>
           </nav>
      </header>
 </template>
 
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+     computed: {
+          ...mapGetters(['userIsTeacher'])
+     },
+};
+</script>
 
 <style scoped>
 header {

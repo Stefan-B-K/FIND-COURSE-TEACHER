@@ -5,11 +5,20 @@ import applications from '@/store/modules/applications';
 
 const store = createStore({
   modules: { teachers, applications },
-  state() {
+  state () {
     return {
-    userId: null
+      userId: 't100',
+      userIsTeacher: false
+    };
+  },
+  getters: {
+    userId (state) {
+      return state.userId;
+    },
+    userIsTeacher(state) {
+      return state.userIsTeacher
     }
-  }
+  },
 });
 
 export default store;
