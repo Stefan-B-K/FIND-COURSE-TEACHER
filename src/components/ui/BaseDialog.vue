@@ -1,21 +1,25 @@
 <template>
      <teleport to="body">
-          <div v-if="show" @click="tryClose" class="backdrop"></div>
-          <dialog open v-if="show">
-               <header>
-                    <slot name="header">
-                         <h2>{{ title }}</h2>
-                    </slot>
-               </header>
-               <section>
-                    <slot></slot>
-               </section>
-               <menu v-if="!fixed">
-                    <slot name="actions">
-                         <base-button @click="tryClose">Close</base-button>
-                    </slot>
-               </menu>
-          </dialog>
+          <transition name="backdrop">
+               <div v-if="show" @click="tryClose" class="backdrop"></div>
+          </transition>
+          <transition name="dialog">
+               <dialog open v-if="show">
+                    <header>
+                         <slot name="header">
+                              <h2>{{ title }}</h2>
+                         </slot>
+                    </header>
+                    <section>
+                         <slot></slot>
+                    </section>
+                    <menu v-if="!fixed">
+                         <slot name="actions">
+                              <base-button @click="tryClose">Close</base-button>
+                         </slot>
+                    </menu>
+               </dialog>
+          </transition>
      </teleport>
 </template>
 
@@ -94,6 +98,44 @@ menu {
      display: flex;
      justify-content: flex-end;
      margin: 0;
+}
+
+.backdrop-enter-from,
+.backdrop-leave-to  {
+     background-color: rgba(0, 0, 0, 0);
+}
+
+.backdrop-enter-to,
+.backdrop-leave-from  {
+     background-color: rgba(0, 0, 0, 0.7);
+}
+
+.backdrop-enter-active {
+     transition:  all  0.4s ease-out;
+}
+
+.backdrop-leave-active {
+     transition:  all  0.4s ease-in;
+}
+
+.dialog-enter-from,
+.dialog-leave-to {
+     transform: scale(0.7);
+     opacity: 0;
+}
+
+.dialog-enter-to,
+.dialog-leave-from{
+     transform: scale(1);
+     opacity: 1;
+}
+
+.dialog-enter-active {
+     transition:  all  0.4s ease-out;
+}
+
+.dialog-leave-active {
+     transition:  all  0.4s ease-in;
 }
 
 @media (min-width: 768px) {

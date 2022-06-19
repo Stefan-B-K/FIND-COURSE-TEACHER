@@ -1,6 +1,10 @@
 <template>
-  <the-header></the-header>
-  <router-view></router-view>
+     <the-header></the-header>
+     <router-view v-slot="slotProps">
+          <transition name="route" mode="out-in">
+               <component :is="slotProps.Component"></component>
+          </transition>
+     </router-view>
 </template>
 
 
@@ -8,7 +12,7 @@
 import TheHeader from '@/components/layout/TheHeader';
 
 export default {
-  components: { TheHeader },
+     components: { TheHeader }
 };
 </script>
 
@@ -17,14 +21,33 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 * {
-  box-sizing: border-box;
+     box-sizing: border-box;
 }
 
 html {
-  font-family: "Roboto", sans-serif;
+     font-family: "Roboto", sans-serif;
 }
 
 body {
-  margin: 0;
+     margin: 0;
 }
+
+.route-enter-active {
+     animation: fade-in 0.3s ease-out;
+}
+
+.route-leave-active {
+     animation: fade-in 0.3s ease-in reverse;
+}
+
+
+@keyframes fade-in {
+     from {
+          opacity: 0
+     }
+     to {
+          opacity: 1;
+     }
+}
+
 </style>

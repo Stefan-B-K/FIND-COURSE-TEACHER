@@ -1,32 +1,35 @@
 <template>
-     <base-dialog
-          :show="!!error"
-          @close="handleError"
-          title="Error fetching teachers!!"
-     >
-          <p>{{ error }}</p>
-     </base-dialog>
-     <section>
-          <teacher-filter @change-filter="setAreas"></teacher-filter>
-     </section>
-     <section>
-          <base-card>
-               <div class="controls">
-                    <base-button @click="refreshTeachers" v-if="!isLoading" mode="outline">Refresh</base-button>
-                    <base-button v-if="!isTeacher && !isLoading" link to="/register">Register as Teacher</base-button>
-               </div>
-               <div v-if="isLoading">
-                    <base-spinner></base-spinner>
-               </div>
-               <ul v-else-if="teachersLoaded">
-                    <teacher-item v-for="teacher in filteredTeachers"
-                                  :key="teacher.id"
-                                  :teacher="teacher"
-                    ></teacher-item>
-               </ul>
-               <h3 v-else>No teachers found.</h3>
-          </base-card>
-     </section>
+     <div>
+          <base-dialog
+               :show="!!error"
+               @close="handleError"
+               title="Error fetching teachers!!"
+          >
+               <p>{{ error }}</p>
+          </base-dialog>
+          <section>
+               <teacher-filter @change-filter="setAreas"></teacher-filter>
+          </section>
+          <section>
+               <base-card>
+                    <div class="controls">
+                         <base-button @click="refreshTeachers" v-if="!isLoading" mode="outline">Refresh</base-button>
+                         <base-button v-if="!isTeacher && !isLoading" link to="/register">Register as Teacher
+                         </base-button>
+                    </div>
+                    <div v-if="isLoading">
+                         <base-spinner></base-spinner>
+                    </div>
+                    <ul v-else-if="teachersLoaded">
+                         <teacher-item v-for="teacher in filteredTeachers"
+                                       :key="teacher.id"
+                                       :teacher="teacher"
+                         ></teacher-item>
+                    </ul>
+                    <h3 v-else>No teachers found.</h3>
+               </base-card>
+          </section>
+     </div>
 </template>
 
 

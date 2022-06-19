@@ -1,25 +1,27 @@
 <template>
-     <section>
-          <base-card>
-               <h2>{{ fullName }}</h2>
-               <h3>{{ rate }}</h3>
-               <h4>{{ available }}</h4>
-          </base-card>
-     </section>
-     <section>
-          <base-card>
-               <header><h2>Interested? Reach out now!</h2>
-                    <base-button link :to="contact">Contact</base-button>
-               </header>
-               <router-view></router-view>
-          </base-card>
-     </section>
-     <section>
-          <base-card>
-               <base-badge v-for="area in teacher.areas" :key="area" :type="area" :title="area">
-               </base-badge>
-               <p>{{ teacher.description }}</p></base-card>
-     </section>
+     <div>
+          <section>
+               <base-card>
+                    <h2>{{ fullName }}</h2>
+                    <h3>{{ rate }}</h3>
+                    <h4>{{ available }}</h4>
+               </base-card>
+          </section>
+          <section>
+               <base-card>
+                    <header><h2>Interested? Reach out now!</h2>
+                         <base-button link :to="contact">Contact</base-button>
+                    </header>
+                    <router-view></router-view>
+               </base-card>
+          </section>
+          <section>
+               <base-card>
+                    <base-badge v-for="area in teacher.areas" :key="area" :type="area" :title="area">
+                    </base-badge>
+                    <p>{{ teacher.description }}</p></base-card>
+          </section>
+     </div>
 </template>
 
 

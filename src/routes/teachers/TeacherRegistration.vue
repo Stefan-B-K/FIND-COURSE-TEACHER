@@ -1,19 +1,21 @@
 <template>
-     <base-dialog
-          :show="!!error"
-          @close="handleError"
-          title="Error sending registration request!!!"
-     >
-          <p>{{ error }}</p>
-     </base-dialog>
-     <section>
-          <base-card><h2>Register as a teacher now!</h2>
-               <div v-if="isLoading">
-                    <base-spinner></base-spinner>
-               </div>
-               <teacher-form v-else :allAreas="allAreas" @save-data="registerTeacher"></teacher-form>
-          </base-card>
-     </section>
+     <div>
+          <base-dialog
+               :show="!!error"
+               @close="handleError"
+               title="Error sending registration request!!!"
+          >
+               <p>{{ error }}</p>
+          </base-dialog>
+          <section>
+               <base-card><h2>Register as a teacher now!</h2>
+                    <div v-if="isLoading">
+                         <base-spinner></base-spinner>
+                    </div>
+                    <teacher-form v-else :allAreas="allAreas" @save-data="registerTeacher"></teacher-form>
+               </base-card>
+          </section>
+     </div>
 </template>
 
 

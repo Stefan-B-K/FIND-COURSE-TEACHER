@@ -5,7 +5,7 @@ const FIREBASE_DB = 'https://find-course-teacher-default-rtdb.europe-west1.fireb
 const state = {
   teachers: [],
   teachersLoaded: false,
-  areas: [],
+  areas: []
 };
 
 const getters = {
@@ -17,7 +17,7 @@ const getters = {
   },
   allAreas (state) {
     return state.areas;
-  },
+  }
 
 };
 
@@ -31,19 +31,29 @@ const mutations = {
   setTeachersLoaded (state) {
     state.teachersLoaded = true;
   },
-};
+  setTeachersNotLoaded (state) {
+    state.teachersLoaded = false;
+  },
+  addTeacher(state, newTeacher) {
+    state.teachers.push(newTeacher)
+  }
+}
 
 const actions = {
-  async addTeacher ({ rootState, rootGetters }, newTeacher) {
+  async addTeacher ({ commit, rootState, rootGetters }, newTeacher) {
     try {
       await axios.put(`${FIREBASE_DB}/teachers/${rootGetters.userId}.json`, newTeacher);
     } catch (error) {
       throw new Error('Error writing to Firebase: ' + error);
     }
-    rootState.userIsTeacher = true
+    commit('addTeacher', { ...newTeacher, id: rootGetters.userId })
+    rootState.userIsTeacher = true;
   },
 
-  async fetchTeachers ({ commit, rootState, rootGetters }) {
+  async fetchTeachers ({ commit, getters, rootState, rootGetters }) {
+    commit('setTeachersNotLoaded')
+    commit('setAreas', []);
+
     let loadedTeachers = [];
     try {
       const response = await axios.get(`${FIREBASE_DB}/teachers.json`);
@@ -56,17 +66,17 @@ const actions = {
     commit('setTeachersLoaded');
 
     const allAreas = [];
-    state.teachers.forEach(teacher => {
+    getters.allTeachers.forEach(teacher => {
       teacher.areas.forEach(area => {
         if (!allAreas.includes(area)) allAreas.push(area);
       });
     });
     commit('setAreas', allAreas);
 
-
-      for(let teacher of  state.teachers)  {
-        if (teacher.id === rootGetters.userId) rootState.userIsTeacher = true
-      }
+    rootState.userIsTeacher = false;
+    for (let teacher of state.teachers) {
+      if (teacher.id === rootGetters.userId) rootState.userIsTeacher = true;
+    }
 
   }
 };

@@ -1,32 +1,34 @@
 <template>
-     <base-dialog
-          :show="!!error"
-          @close="handleError"
-          title="Error  fetching applications!!"
-     >
-          <p>{{ error }}</p>
-     </base-dialog>
-     <section>
-          <base-card>
-               <header>
-                    <h2>Applications Received </h2>
-                    <base-button @click="loadApplications" mode="outline">Refresh</base-button>
-               </header>
-               <div v-if="isLoading">
-                    <base-spinner></base-spinner>
-               </div>
-               <h3 v-else-if="noApplications">No applications received!</h3>
-               <ul v-else>
-                    <application-item
-                         v-for="application in receivedApplications"
-                         :key="application.id"
-                         :application="application"
-                         @delete-app="deleteApplication"
-                    >
-                    </application-item>
-               </ul>
-          </base-card>
-     </section>
+     <div>
+          <base-dialog
+               :show="!!error"
+               @close="handleError"
+               title="Error  fetching applications!!"
+          >
+               <p>{{ error }}</p>
+          </base-dialog>
+          <section>
+               <base-card>
+                    <header>
+                         <h2>Applications Received </h2>
+                         <base-button @click="loadApplications" mode="outline">Refresh</base-button>
+                    </header>
+                    <div v-if="isLoading">
+                         <base-spinner></base-spinner>
+                    </div>
+                    <h3 v-else-if="noApplications">No applications received!</h3>
+                    <ul v-else>
+                         <application-item
+                              v-for="application in receivedApplications"
+                              :key="application.id"
+                              :application="application"
+                              @delete-app="deleteApplication"
+                         >
+                         </application-item>
+                    </ul>
+               </base-card>
+          </section>
+     </div>
 </template>
 
 <script>

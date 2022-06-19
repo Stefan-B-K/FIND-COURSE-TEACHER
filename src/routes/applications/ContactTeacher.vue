@@ -1,41 +1,40 @@
 <template>
-     <base-dialog
-          :show="!!error"
-          @close="handleError"
-          title="Error sending application!!!"
-     >
-          <p>{{ error }}</p>
-     </base-dialog>
-     <div v-if="isLoading">
-          <base-spinner></base-spinner>
+     <div>
+          <base-dialog
+               :show="!!error"
+               @close="handleError"
+               title="Error sending application!!!"
+          >
+               <p>{{ error }}</p>
+          </base-dialog>
+          <form @submit.prevent="submitForm">
+               <div class="form-control" :class="{ invalid: !email.isValid }">
+                    <label for="email">Your E-Mail</label>
+                    <input
+                         v-model.trim="email.value"
+                         type="email"
+                         id="email"
+                         @input="clearInvalidPrompt('email')"
+                    />
+                    <p v-if="!email.isValid">Must provide a valid e-mail!</p>
+               </div>
+               <div class="form-control" :class="{ invalid: !message.isValid }">
+                    <label for="message">Message</label>
+                    <textarea
+                         v-model.trim="message.value"
+                         id="message"
+                         rows="5"
+                         @input="clearInvalidPrompt('message')"
+                    ></textarea>
+                    <p v-if="!message.isValid">Enter some message to send to the teacher!</p>
+               </div>
+               <div class="actions">
+                    <base-button>Send</base-button>
+                    <h4 v-if="!formIsValid">Please provide valid data
+                         in the fields marked with red!</h4>
+               </div>
+          </form>
      </div>
-     <form v-else @submit.prevent="submitForm">
-          <div class="form-control" :class="{ invalid: !email.isValid }">
-               <label for="email">Your E-Mail</label>
-               <input
-                    v-model.trim="email.value"
-                    type="email"
-                    id="email"
-                    @input="clearInvalidPrompt('email')"
-               />
-               <p v-if="!email.isValid">Must provide a valid e-mail!</p>
-          </div>
-          <div class="form-control" :class="{ invalid: !message.isValid }">
-               <label for="message">Message</label>
-               <textarea
-                    v-model.trim="message.value"
-                    id="message"
-                    rows="5"
-                    @input="clearInvalidPrompt('message')"
-               ></textarea>
-               <p v-if="!message.isValid">Enter some message to send to the teacher!</p>
-          </div>
-          <div class="actions">
-               <base-button>Send</base-button>
-               <h4 v-if="!formIsValid">Please provide valid data
-                    in the fields marked with red!</h4>
-          </div>
-     </form>
 </template>
 
 <script>
@@ -46,7 +45,6 @@ export default {
           return {
                email: { value: '', isValid: true },
                message: { value: '', isValid: true },
-               isLoading: false,
                error: null
           };
      },
