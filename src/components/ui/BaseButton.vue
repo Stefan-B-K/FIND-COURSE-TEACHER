@@ -3,7 +3,7 @@
           <router-link v-if="link" :to="to" :class="mode">
                <slot></slot>
           </router-link>
-          <button v-else :class="mode">
+          <button v-else :type="type" :class="mode">
                <slot></slot>
           </button>
      </div>
@@ -27,6 +27,11 @@ export default {
                type: String,
                required: false,
                default: null
+          },
+          type: {
+               type: String,
+               required: false,
+               default: 'submit'
           }
      }
 };

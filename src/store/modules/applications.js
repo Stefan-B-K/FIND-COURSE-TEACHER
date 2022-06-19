@@ -41,9 +41,10 @@ const actions = {
 
     try {
       await axios
-        .post(`${FIREBASE_DB}/requests/${data.teacherId}.json`, newApplication);
+        .post(`${FIREBASE_DB}/applications/${data.teacherId}.json`, newApplication);
     } catch (error) {
-      throw new Error('Error writing to Firebase: ' + error);
+      throw new Error('Error writing to Firebase: '
+        + error.message + ' ' + error.response.statusText);
     }
   },
 
@@ -51,13 +52,14 @@ const actions = {
     let loadedApps = [];
     try {
       const response = await axios
-        .get(`${FIREBASE_DB}/requests/${rootGetters.userId}.json`);
+        .get(`${FIREBASE_DB}/applications/${rootGetters.userId}.json`);
       if (response.data) {
         loadedApps = Object.keys(response.data)
           .map(key => ({ ...response.data[key], id: key }));
       }
     } catch (error) {
-      throw new Error('Error fetching applications from Firebase: ' + error);
+      throw new Error('Error fetching applications from Firebase: '
+        + error.message + ' ' + error.response.statusText);
     }
     commit('setApplications', loadedApps);
     commit('setApplicationsLoaded');
@@ -67,10 +69,11 @@ const actions = {
 
     try {
       await axios
-        .delete(`${FIREBASE_DB}/requests/${rootGetters.userId}/${appId}.json`);
+        .delete(`${FIREBASE_DB}/applications/${rootGetters.userId}/${appId}.json`);
       commit('deleteApplication', appId);
     } catch (error) {
-      throw new Error('Error deleting application from Firebase: ' + error);
+      throw new Error('Error deleting application from Firebase: '
+        + error.message + ' ' + error.response.statusText);
     }
   }
 

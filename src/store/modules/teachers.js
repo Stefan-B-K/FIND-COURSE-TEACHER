@@ -44,7 +44,8 @@ const actions = {
     try {
       await axios.put(`${FIREBASE_DB}/teachers/${rootGetters.userId}.json`, newTeacher);
     } catch (error) {
-      throw new Error('Error writing to Firebase: ' + error);
+      throw new Error('Error writing to Firebase: '
+        + error.message + ' ' + error.response.statusText);
     }
     commit('addTeacher', { ...newTeacher, id: rootGetters.userId })
     rootState.userIsTeacher = true;
@@ -60,7 +61,8 @@ const actions = {
       loadedTeachers = Object.keys(response.data)
         .map(key => ({ ...response.data[key], id: key }));
     } catch (error) {
-      throw new Error('Error fetching teachers from Firebase: ' + error);
+      throw new Error('Error fetching teachers from Firebase: '
+        + error.message + ' ' + error.response.statusText);
     }
     commit('setTeachers', loadedTeachers);
     commit('setTeachersLoaded');

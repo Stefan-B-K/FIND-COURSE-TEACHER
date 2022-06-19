@@ -5,6 +5,7 @@ import TeacherRegistration from '@/routes/teachers/TeacherRegistration';
 import ApplicationsReceived from '@/routes/applications/ApplicationsReceived';
 import TeacherDetail from '@/routes/teachers/TeacherDetail';
 import PageNotFound from '@/routes/PageNotFound';
+import UserLogin from '@/routes/auth/UserLogin';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -21,6 +22,7 @@ const router = createRouter({
     },
     { path: '/register', component: TeacherRegistration },
     { path: '/applications', component: ApplicationsReceived },
+    { path: '/auth', component: UserLogin},
     { path: '/:catchAll(.*)', component: PageNotFound }
   ]
 });
