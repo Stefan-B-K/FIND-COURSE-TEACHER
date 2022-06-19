@@ -1,10 +1,6 @@
 <template>
      <div>
-          <base-dialog
-               :show="!!error"
-               @close="handleError"
-               title="Error sending registration request!!!"
-          >
+          <base-dialog :show="!!error" @close="handleError" title="Error sending registration request!!!">
                <p>{{ error }}</p>
           </base-dialog>
           <section>

@@ -1,10 +1,6 @@
 <template>
      <div>
-          <base-dialog
-               :show="!!error"
-               @close="handleError"
-               title="Error sending application!!!"
-          >
+          <base-dialog :show="!!error" @close="handleError" title="Error sending application!!!">
                <p>{{ error }}</p>
           </base-dialog>
           <form @submit.prevent="submitForm">
@@ -50,7 +46,7 @@ export default {
      },
      computed: {
           formIsValid () {
-               return this.email.isValid && this.message.isValid
+               return this.email.isValid && this.message.isValid;
           }
      },
      methods: {
@@ -63,13 +59,11 @@ export default {
                this.validateForm();
                if (!this.formIsValid) return;
                try {
-                    this.isLoading = true;
                     await this.contactTeacher({
                          email: this.email.value,
                          message: this.message.value,
                          teacherId: this.$route.params.id
                     });
-                    this.isLoading = false;
                     this.$router.replace('/teachers');
                } catch (error) {
                     this.error = error.message;
@@ -79,7 +73,6 @@ export default {
                this[input].isValid = true;
           },
           handleError () {
-               this.isLoading = false;
                this.error = null;
                this.$router.replace('/teachers');
           }

@@ -7,6 +7,7 @@
                <ul>
                     <li>
                          <router-link to='/teachers'>All Teachers</router-link>
+                         <router-link v-if="!userIsLoggedIn" to="/auth">Log In</router-link>
                          <router-link v-if="userIsTeacher" to='/applications'>Applications</router-link>
                     </li>
                </ul>
@@ -19,7 +20,7 @@ import { mapGetters } from 'vuex';
 
 export default {
      computed: {
-          ...mapGetters(['userIsTeacher'])
+          ...mapGetters(['userIsLoggedIn', 'userIsTeacher'])
      },
 };
 </script>
