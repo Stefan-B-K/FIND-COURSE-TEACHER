@@ -2,23 +2,10 @@ import { createStore } from 'vuex';
 
 import teachers from '@/store/modules/teachers';
 import applications from '@/store/modules/applications';
+import auth from '@/store/modules/auth';
 
 const store = createStore({
-  modules: { teachers, applications },
-  state () {
-    return {
-      userId: 't100',
-      userIsTeacher: false
-    };
-  },
-  getters: {
-    userId (state) {
-      return state.userId;
-    },
-    userIsTeacher(state) {
-      return state.userIsTeacher
-    }
-  },
+  modules: { teachers, applications, auth },
 });
 
 export default store;
