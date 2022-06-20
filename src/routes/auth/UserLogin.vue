@@ -80,7 +80,8 @@ export default {
      methods: {
           ...mapActions({
                authorize: 'authorize',
-               setUserIsTeacher: 'teachers/setUserIsTeacher'
+               setUserIsTeacher: 'teachers/toggleUserIsTeacher',
+               fetchApplications: 'applications/fetchApplications'
           }),
           validateForm () {
                if (this.email.value === '') this.email.isValid = false;
@@ -103,7 +104,10 @@ export default {
                     await this.authorize(userInputData);
                     
                     for (let teacher of this.teachers) {
-                         if (teacher.id === this.userId) this.setUserIsTeacher()
+                         if (teacher.id === this.userId) {
+                              this.setUserIsTeacher()
+                              this.fetchApplications()
+                         }
                     }
                     
                     if (this.mode === 'login') this.$router.replace('/teachers');

@@ -41,8 +41,8 @@ const mutations = {
   addTeacher (state, newTeacher) {
     state.teachers.push(newTeacher);
   },
-  setUserIsTeacher (state) {
-    state.userIsTeacher = true;
+  toggleUserIsTeacher (state) {
+    state.userIsTeacher = !state.userIsTeacher;
   }
 };
 
@@ -54,7 +54,7 @@ const actions = {
       let message = error.response.statusText || error.response.data.error.message;
       throw new Error('Error writing to Firebase: ' + message);
     }
-    commit('setUserIsTeacher');
+    commit('toggleUserIsTeacher');
     commit('addTeacher', { ...newTeacher, id: rootGetters.userId });
   },
 
@@ -75,7 +75,7 @@ const actions = {
     commit('setTeachersLoaded');
 
     for (let teacher in loadedTeachers) {
-      if (teacher.id === rootGetters.userId) commit('setUserIsTeacher');
+      if (teacher.id === rootGetters.userId) commit('toggleUserIsTeacher');
     }
 
     const allAreas = [];
@@ -92,7 +92,7 @@ const actions = {
     }
 
   },
-  setUserIsTeacher({ commit }) { commit('setUserIsTeacher') }
+  toggleUserIsTeacher({ commit }) { commit('toggleUserIsTeacher') }
 };
 
 export default {

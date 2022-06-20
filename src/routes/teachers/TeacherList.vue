@@ -14,7 +14,7 @@
                <base-card>
                     <div class="controls">
                          <base-button @click="refreshTeachers" v-if="!isLoading" mode="outline">Refresh</base-button>
-                         <base-button v-if="!isTeacher && !isLoading && userIsLoggedIn" link to="/register">Register as Teacher
+                         <base-button v-if="userIsLoggedIn && !isTeacher && !isLoading" link to="/register">Register as Teacher
                          </base-button>
                     </div>
                     <div v-if="isLoading">

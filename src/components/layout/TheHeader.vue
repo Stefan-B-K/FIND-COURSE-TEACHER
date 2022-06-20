@@ -7,8 +7,13 @@
                <ul>
                     <li>
                          <router-link to='/teachers'>All Teachers</router-link>
-                         <router-link v-if="!userIsLoggedIn" to="/auth">Log In</router-link>
-                         <router-link v-if="userIsTeacher" to='/applications'>Applications</router-link>
+                    </li>
+                    <li>
+                         <router-link v-if="userIsTeacher" to="/applications">Applications</router-link>
+                    </li>
+                    <li>
+                         <base-button v-if="!userIsLoggedIn" to="/auth" link>Log In</base-button>
+                         <base-button v-else @click="logout">Log Out</base-button>
                     </li>
                </ul>
           </nav>
@@ -25,6 +30,13 @@ export default {
                userIsTeacher: 'teachers/userIsTeacher'
           })
      },
+     methods: {
+         logout() {
+              this.$store.dispatch('logout')
+              this.$store.dispatch('teachers/toggleUserIsTeacher')
+              this.$router.replace('/teachers')
+         }
+     }
 };
 </script>
 

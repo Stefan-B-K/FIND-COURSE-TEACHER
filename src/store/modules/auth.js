@@ -7,7 +7,7 @@ const LOGIN_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWith
 const state = {
   userId: null,
   token: null,
-  tokenExpiration: null,
+  tokenExpiration: null
 };
 
 const getters = {
@@ -17,8 +17,8 @@ const getters = {
   userIsLoggedIn (state) {
     return !!state.userId;
   },
-  token(state) {
-    return state.token
+  token (state) {
+    return state.token;
   }
 };
 
@@ -31,6 +31,7 @@ const mutations = {
 };
 
 const actions = {
+
   async authorize ({ commit }, userData) {
     const userInputData = userData[0];
     const authType = userData[1];
@@ -46,6 +47,14 @@ const actions = {
       throw  new Error('Error logging in: ' + message);
     }
     commit('setUserAuthData', userAuthData);
+  },
+
+  logout ({  commit }) {
+    commit('setUserAuthData', {
+      userId: null,
+      token: null,
+      tokenExpiration: null
+    })
   }
 
 };
