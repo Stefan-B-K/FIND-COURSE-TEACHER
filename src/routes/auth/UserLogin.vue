@@ -62,7 +62,11 @@ export default {
           };
      },
      computed: {
-          ...mapGetters(['userIsLoggedIn']),
+          ...mapGetters({
+               userIsLoggedIn: 'userIsLoggedIn',
+               teachers: 'teachers/allTeachers',
+               userId: 'userId'
+          }),
           formIsValid () {
                return this.email.isValid && this.password.isValid;
           },
@@ -74,7 +78,10 @@ export default {
           }
      },
      methods: {
-          ...mapActions(['signup', 'login', 'authorize']),
+          ...mapActions({
+               authorize: 'authorize',
+               setUserIsTeacher: 'teachers/setUserIsTeacher'
+          }),
           validateForm () {
                if (this.email.value === '') this.email.isValid = false;
                if (this.password.value.length < 6) this.password.isValid = false;
@@ -94,6 +101,11 @@ export default {
                try {
                     if (this.mode === 'signup') this.isLoading = true;
                     await this.authorize(userInputData);
+                    
+                    for (let teacher of this.teachers) {
+                         if (teacher.id === this.userId) this.setUserIsTeacher()
+                    }
+                    
                     if (this.mode === 'login') this.$router.replace('/teachers');
                } catch (error) {
                     this.error = error.message;

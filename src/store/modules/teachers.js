@@ -5,7 +5,8 @@ const FIREBASE_DB = 'https://find-course-teacher-default-rtdb.europe-west1.fireb
 const state = {
   teachers: [],
   teachersLoaded: false,
-  areas: []
+  areas: [],
+  userIsTeacher: false
 };
 
 const getters = {
@@ -17,6 +18,9 @@ const getters = {
   },
   allAreas (state) {
     return state.areas;
+  },
+  userIsTeacher (state) {
+    return state.userIsTeacher;
   }
 
 };
@@ -34,25 +38,28 @@ const mutations = {
   setTeachersNotLoaded (state) {
     state.teachersLoaded = false;
   },
-  addTeacher(state, newTeacher) {
-    state.teachers.push(newTeacher)
+  addTeacher (state, newTeacher) {
+    state.teachers.push(newTeacher);
+  },
+  setUserIsTeacher (state) {
+    state.userIsTeacher = true;
   }
-}
+};
 
 const actions = {
-  async addTeacher ({ commit, rootState, rootGetters }, newTeacher) {
+  async addTeacher ({ commit, rootGetters }, newTeacher) {
     try {
-      await axios.put(`${FIREBASE_DB}/teachers/${rootGetters.userId}.json`, newTeacher);
+      await axios.put(`${FIREBASE_DB}/teachers/${rootGetters.userId}.json?auth=${rootGetters.token}`, newTeacher);
     } catch (error) {
-      throw new Error('Error writing to Firebase: '
-        + error.message + ' ' + error.response.statusText);
+      let message = error.response.statusText || error.response.data.error.message;
+      throw new Error('Error writing to Firebase: ' + message);
     }
-    commit('addTeacher', { ...newTeacher, id: rootGetters.userId })
-    rootState.userIsTeacher = true;
+    commit('setUserIsTeacher');
+    commit('addTeacher', { ...newTeacher, id: rootGetters.userId });
   },
 
   async fetchTeachers ({ commit, getters, rootState, rootGetters }) {
-    commit('setTeachersNotLoaded')
+    commit('setTeachersNotLoaded');
     commit('setAreas', []);
 
     let loadedTeachers = [];
@@ -61,11 +68,15 @@ const actions = {
       loadedTeachers = Object.keys(response.data)
         .map(key => ({ ...response.data[key], id: key }));
     } catch (error) {
-      throw new Error('Error fetching teachers from Firebase: '
-        + error.message + ' ' + error.response.statusText);
+      let message = error.response.statusText || error.response.data.error.message;
+      throw new Error('Error fetching teachers from Firebase: ' + message);
     }
     commit('setTeachers', loadedTeachers);
     commit('setTeachersLoaded');
+
+    for (let teacher in loadedTeachers) {
+      if (teacher.id === rootGetters.userId) commit('setUserIsTeacher');
+    }
 
     const allAreas = [];
     getters.allTeachers.forEach(teacher => {
@@ -80,7 +91,8 @@ const actions = {
       if (teacher.id === rootGetters.userId) rootState.userIsTeacher = true;
     }
 
-  }
+  },
+  setUserIsTeacher({ commit }) { commit('setUserIsTeacher') }
 };
 
 export default {

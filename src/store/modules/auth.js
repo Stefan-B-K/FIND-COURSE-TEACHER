@@ -8,7 +8,6 @@ const state = {
   userId: null,
   token: null,
   tokenExpiration: null,
-  userIsTeacher: false
 };
 
 const getters = {
@@ -18,8 +17,8 @@ const getters = {
   userIsLoggedIn (state) {
     return !!state.userId;
   },
-  userIsTeacher (state) {
-    return state.userIsTeacher;
+  token(state) {
+    return state.token
   }
 };
 
@@ -43,7 +42,7 @@ const actions = {
       userAuthData = response.data;
     } catch (error) {
       let message = authType === 'login' ? 'Error logging in: ' : 'Error registering new user: ';
-      message += error.response.statusText || error.response.data.error.message;
+      message += error.message || error.response.statusText || error.response.data.error.message;
       throw  new Error('Error logging in: ' + message);
     }
     commit('setUserAuthData', userAuthData);

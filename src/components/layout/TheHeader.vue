@@ -20,7 +20,10 @@ import { mapGetters } from 'vuex';
 
 export default {
      computed: {
-          ...mapGetters(['userIsLoggedIn', 'userIsTeacher'])
+          ...mapGetters({
+               userIsLoggedIn: 'userIsLoggedIn',
+               userIsTeacher: 'teachers/userIsTeacher'
+          })
      },
 };
 </script>
