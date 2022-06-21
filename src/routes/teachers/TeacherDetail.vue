@@ -54,7 +54,7 @@ export default {
                return this.teacher.available ? 'Available' : 'Not Available';
           },
           contact () {
-               return `${this.$route.path}/${this.id}/contact`;
+               return `${this.$route.path}/contact`;
           },
      },
     
