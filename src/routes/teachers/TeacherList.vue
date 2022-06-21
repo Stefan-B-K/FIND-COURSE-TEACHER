@@ -79,7 +79,6 @@ export default {
                loadTeachers: 'teachers/fetchTeachers'
           }),
           async refreshTeachers () {
-               console.log(this.isTeacher);
                try {
                     this.isLoading = true;
                     await this.loadTeachers();
@@ -88,7 +87,6 @@ export default {
                } catch (error) {
                     this.error = error.message;
                }
-               console.log(this.isTeacher);
           },
           handleError () {
                this.isLoading = false;

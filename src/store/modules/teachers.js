@@ -41,9 +41,14 @@ const mutations = {
   addTeacher (state, newTeacher) {
     state.teachers.push(newTeacher);
   },
-  toggleUserIsTeacher (state) {
-    state.userIsTeacher = !state.userIsTeacher;
-  }
+  setUserIsTeacher (state) {
+    state.userIsTeacher = true;
+    localStorage.setItem('userIsTeacher', 'true')
+  },
+  setUserIsNotTeacher (state) {
+    state.userIsTeacher = false;
+    localStorage.removeItem('userIsTeacher')
+  },
 };
 
 const actions = {
@@ -54,11 +59,11 @@ const actions = {
       let message = error.response.statusText || error.response.data.error.message;
       throw new Error('Error writing to Firebase: ' + message);
     }
-    commit('toggleUserIsTeacher');
+    commit('setUserIsTeacher');
     commit('addTeacher', { ...newTeacher, id: rootGetters.userId });
   },
 
-  async fetchTeachers ({ commit, getters, rootState, rootGetters }) {
+  async fetchTeachers ({ commit, state, getters,rootGetters }) {
     commit('setTeachersNotLoaded');
     commit('setAreas', []);
 
@@ -75,7 +80,7 @@ const actions = {
     commit('setTeachersLoaded');
 
     for (let teacher in loadedTeachers) {
-      if (teacher.id === rootGetters.userId) commit('toggleUserIsTeacher');
+      if (teacher.id === rootGetters.userId) commit('setUserIsTeacher');
     }
 
     const allAreas = [];
@@ -86,13 +91,18 @@ const actions = {
     });
     commit('setAreas', allAreas);
 
-    rootState.userIsTeacher = false;
+    state.userIsTeacher = false;
     for (let teacher of state.teachers) {
-      if (teacher.id === rootGetters.userId) rootState.userIsTeacher = true;
+      if (teacher.id === rootGetters.userId) state.userIsTeacher = true;
     }
 
   },
-  toggleUserIsTeacher({ commit }) { commit('toggleUserIsTeacher') }
+  setUserIsTeacher({ commit }) {
+    commit('setUserIsTeacher')
+  },
+  setUserIsNotTeacher({ commit }) {
+    commit('setUserIsNotTeacher')
+  },
 };
 
 export default {

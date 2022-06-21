@@ -80,7 +80,7 @@ export default {
      methods: {
           ...mapActions({
                authorize: 'authorize',
-               setUserIsTeacher: 'teachers/toggleUserIsTeacher',
+               setUserIsTeacher: 'teachers/setUserIsTeacher',
                fetchApplications: 'applications/fetchApplications'
           }),
           validateForm () {
@@ -106,7 +106,7 @@ export default {
                     for (let teacher of this.teachers) {
                          if (teacher.id === this.userId) {
                               this.setUserIsTeacher()
-                              this.fetchApplications()
+                              await this.fetchApplications()
                          }
                     }
                     

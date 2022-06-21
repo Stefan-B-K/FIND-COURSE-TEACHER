@@ -9,7 +9,7 @@
                          <router-link to='/teachers'>All Teachers</router-link>
                     </li>
                     <li>
-                         <router-link v-if="userIsTeacher" to="/applications">Applications</router-link>
+                         <router-link v-if="userIsLoggedIn && userIsTeacher" to="/applications">Applications</router-link>
                     </li>
                     <li>
                          <base-button v-if="!userIsLoggedIn" to="/auth" link>Log In</base-button>
@@ -33,7 +33,7 @@ export default {
      methods: {
          logout() {
               this.$store.dispatch('logout')
-              this.$store.dispatch('teachers/toggleUserIsTeacher')
+              this.$store.dispatch('teachers/setUserIsNotTeacher')
               this.$router.replace('/teachers')
          }
      }
