@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const FIREBASE_DB = 'https://find-course-teacher-default-rtdb.europe-west1.firebasedatabase.app/';
+const FIREBASE_DB = process.env.VUE_APP_FIREBASE_DB
 
 const state = {
   teachers: [],
