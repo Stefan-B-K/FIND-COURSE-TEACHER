@@ -2,7 +2,7 @@ import axios from 'axios';
 
 let timer;
 
-const API_KEY = 'AIzaSyBtIRvgn0s29_dYmkymoG7MUkOPl0BbbyI';
+const API_KEY = process.env.VUE_APP_API_KEY
 const SIGNUP_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=';
 const LOGIN_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=';
 
@@ -35,7 +35,7 @@ const actions = {
     const userInputData = userData[0];
     const authType = userData[1];
     let userAuthData;
-
+    console.log(process.env.API_KEY);
     try {
       const url = authType === 'login' ? LOGIN_URL : SIGNUP_URL;
       const response = await axios
