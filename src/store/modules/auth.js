@@ -31,7 +31,7 @@ const mutations = {
 };
 
 const actions = {
-  async authorize ({ commit, dispatch, rootActions }, userData) {
+  async authorize ({ commit, dispatch }, userData) {
     const userInputData = userData[0];
     const authType = userData[1];
     let userAuthData;
@@ -47,21 +47,21 @@ const actions = {
       throw  new Error('Error logging in: ' + message);
     }
 
-    const expiresInMilliseconds = 5000; //+userAuthData.expiresIn * 1000;
+    const expiresInMilliseconds = +userAuthData.expiresIn * 1000;
     const expirationTime = new Date().getTime() + expiresInMilliseconds;
 
-    timer = setTimeout(function() {
+    timer = setTimeout(() => {
       dispatch('logout');
     }, expiresInMilliseconds);
 
     localStorage.setItem('token', userAuthData.idToken);
     localStorage.setItem('userId', userAuthData.localId);
-    localStorage.setItem('tokenExpiration', expirationTime)
+    localStorage.setItem('tokenExpiration', expirationTime);
 
     commit('setUserAuthData', userAuthData);
   },
 
-  keepLogin ({ commit }) {
+  keepLogin ({ commit, dispatch }) {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const tokenExpiration = localStorage.getItem('tokenExpiration');
@@ -69,7 +69,9 @@ const actions = {
     const expiresInMilliseconds = +tokenExpiration - new Date().getTime();
     if (expiresInMilliseconds < 10000) return;
 
-    setTimeout(function() { this.logout(); }, expiresInMilliseconds);
+    timer = setTimeout(function() {
+      dispatch('logout');
+    }, expiresInMilliseconds);
 
     if (token && userId) {
       commit('setUserAuthData', {
@@ -85,12 +87,12 @@ const actions = {
     localStorage.removeItem('userIsTeacher');
     localStorage.removeItem('tokenExpiration');
 
-    clearTimeout(timer);
-
     commit('setUserAuthData', {
       userId: null,
       token: null
     });
+
+    clearTimeout(timer);
   }
 };
 

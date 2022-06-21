@@ -15,7 +15,17 @@ export default {
      components: { TheHeader },
      created () {
           this.$store.dispatch('keepLogin');
-          this.$store.dispatch('teachers/fetchTeachers')
+          this.$store.dispatch('teachers/fetchTeachers');
+     },
+     computed: {
+          userIsLoggedIn () {
+               return this.$store.getters.userIsLoggedIn;
+          }
+     },
+     watch: {
+          userIsLoggedIn (newValue) {
+               if (!newValue) this.$router.replace('/teachers');
+          }
      }
 };
 </script>

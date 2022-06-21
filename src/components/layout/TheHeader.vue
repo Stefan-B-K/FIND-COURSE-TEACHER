@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
      computed: {
@@ -31,11 +31,7 @@ export default {
           })
      },
      methods: {
-         logout() {
-              this.$store.dispatch('logout')
-              this.$store.dispatch('teachers/setUserIsNotTeacher')
-              this.$router.replace('/teachers')
-         }
+        ...mapActions(['logout'])
      }
 };
 </script>
