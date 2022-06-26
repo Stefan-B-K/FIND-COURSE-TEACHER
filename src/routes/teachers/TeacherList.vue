@@ -35,8 +35,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import TeacherItem from '@/components/teachers/TeacherItem';
-import TeacherFilter from '@/components/teachers/TeacherFilter';
+import TeacherItem from '../../components/teachers/TeacherItem.vue';
+import TeacherFilter from '../../components/teachers/TeacherFilter.vue';
 
 export default {
      components: { TeacherItem, TeacherFilter },

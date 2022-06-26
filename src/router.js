@@ -1,14 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TeacherList from '@/routes/teachers/TeacherList';
-import ContactTeacher from '@/routes/applications/ContactTeacher';
-// import TeacherRegistration from '@/routes/teachers/TeacherRegistration';
-const TeacherRegistration = () => import('@/routes/teachers/TeacherRegistration')
-// import ApplicationsReceived from '@/routes/applications/ApplicationsReceived';
-const ApplicationsReceived = () => import('@/routes/applications/ApplicationsReceived')
-import TeacherDetail from '@/routes/teachers/TeacherDetail';
-import PageNotFound from '@/routes/PageNotFound';
-import UserLogin from '@/routes/auth/UserLogin';
-import store from '@/store';
+import TeacherList from './routes/teachers/TeacherList';
+import ContactTeacher from './routes/applications/ContactTeacher';
+const TeacherRegistration = () => import('./routes/teachers/TeacherRegistration')
+const ApplicationsReceived = () => import('./routes/applications/ApplicationsReceived')
+import TeacherDetail from './routes/teachers/TeacherDetail';
+import PageNotFound from './routes/PageNotFound';
+import UserLogin from './routes/auth/UserLogin';
+import store from './store';
 
 const router = createRouter({
   history: createWebHistory(),

@@ -14,10 +14,8 @@
 
 
 <script>
-import BaseButton from '@/components/ui/BaseButton';
 
 export default {
-     components: { BaseButton },
      props: { application: Object },
      emits: ['delete-app'],
      computed: {

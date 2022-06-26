@@ -27,10 +27,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BaseCard from '@/components/ui/BaseCard';
 
 export default {
-     components: { BaseCard },
      props: ['id'],                                                             // from path in main.js
      data() {
           return {

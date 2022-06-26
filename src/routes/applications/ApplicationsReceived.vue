@@ -33,11 +33,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import ApplicationItem from '@/components/applications/ApplicationItem';
-import BaseButton from '@/components/ui/BaseButton';
+import ApplicationItem from '../../components/applications/ApplicationItem.vue';
 
 export default {
-     components: { BaseButton, ApplicationItem },
+     components: { ApplicationItem },
      data () {
           return {
                isLoading: false,

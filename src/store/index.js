@@ -1,8 +1,8 @@
 import { createStore } from 'vuex';
 
-import teachers from '@/store/modules/teachers';
-import applications from '@/store/modules/applications';
-import auth from '@/store/modules/auth';
+import teachers from './modules/teachers';
+import applications from './modules/applications';
+import auth from './modules/auth';
 
 const store = createStore({
   modules: { teachers, applications, auth },

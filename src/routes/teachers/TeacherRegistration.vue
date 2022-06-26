@@ -16,7 +16,7 @@
 
 
 <script>
-import TeacherForm from '@/components/teachers/TeacherForm';
+import TeacherForm from '../../components/teachers/TeacherForm.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {

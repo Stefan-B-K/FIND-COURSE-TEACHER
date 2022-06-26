@@ -1,18 +1,17 @@
-import { createApp, defineAsyncComponent } from 'vue';
+import { createApp, defineAsyncComponent } from 'vue'
 
-import App from '@/App';
-import router from '@/router';
-import store from '@/store';
+import App from './App.vue'
+import router from './router'
+import store from './store'
 
-import BaseCard from '@/components/ui/BaseCard';
-import BaseButton from '@/components/ui/BaseButton';
-import BaseBadge from '@/components/ui/BaseBadge';
-import BaseSpinner from '@/components/ui/BaseSpinner';
-// import BaseDialog from '@/components/ui/BaseDialog';
+import BaseCard from './components/ui/BaseCard.vue'
+import BaseButton from './components/ui/BaseButton.vue'
+import BaseBadge from './components/ui/BaseBadge.vue'
+import BaseSpinner from './components/ui/BaseSpinner'
 
-const BaseDialog = defineAsyncComponent(() => import('@/components/ui/BaseDialog'))
+const BaseDialog = defineAsyncComponent(() => import('./components/ui/BaseDialog'))
 
-const app = createApp(App);
+const app = createApp(App)
 
 app
   .use(store)
@@ -22,4 +21,4 @@ app
   .component('base-badge', BaseBadge)
   .component('base-spinner', BaseSpinner)
   .component('base-dialog', BaseDialog)
-  .mount('#app');
+  .mount('#app')
