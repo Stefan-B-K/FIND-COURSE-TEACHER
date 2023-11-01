@@ -35,7 +35,6 @@ const actions = {
     const userInputData = userData[0];
     const authType = userData[1];
     let userAuthData;
-    console.log(process.env.API_KEY);
     try {
       const url = authType === 'login' ? LOGIN_URL : SIGNUP_URL;
       const response = await axios
