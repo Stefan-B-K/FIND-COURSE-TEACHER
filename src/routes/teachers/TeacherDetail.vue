@@ -17,7 +17,7 @@
           </section>
           <section>
                <base-card>
-                    <base-badge v-for="area in teacher.areas" :key="area" :type="area" :title="area">
+                    <base-badge v-for="area in teacher.areas" :key="area" :title="area">
                     </base-badge>
                     <p>{{ teacher.description }}</p></base-card>
           </section>
@@ -30,13 +30,13 @@ import { mapGetters } from 'vuex';
 
 export default {
      props: ['id'],                                                             // from path in main.js
-     data() {
+     data () {
           return {
                teacher: null
-          }
+          };
      },
      created () {
-          this.teacher = this.teachers.find(teacher => teacher.id === this.id)
+          this.teacher = this.teachers.find(teacher => teacher.id === this.id);
      },
      computed: {
           ...mapGetters({
@@ -53,9 +53,7 @@ export default {
           },
           contact () {
                return `${this.$route.path}/contact`;
-          },
-     },
-    
-   
+          }
+     }
 };
 </script>

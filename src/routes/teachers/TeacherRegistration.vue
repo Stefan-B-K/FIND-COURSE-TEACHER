@@ -30,7 +30,6 @@ export default {
      computed: {
           ...mapGetters({
                allAreas: 'teachers/allAreas',
-               userId: 'userId'
           })
      },
      methods: {
